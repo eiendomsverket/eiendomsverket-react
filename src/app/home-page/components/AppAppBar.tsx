@@ -39,6 +39,10 @@ export default function AppAppBar() {
   const handleSignInClick = (): void => {
     router.push('/sign-in');
   };
+  const handleSignUpClick = (): void => {
+    router.push('/sign-up');
+
+  }
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
@@ -94,7 +98,11 @@ export default function AppAppBar() {
                   onClick={handleSignInClick}
               > Sign in
               </Button>
-              <Button color="primary" variant="contained" size="small">
+              <Button
+                  color="primary"
+                  variant="contained"
+                  size="small"
+              onClick={handleSignUpClick}>
                 Sign up
               </Button>
               <ColorModeIconDropdown/>
@@ -134,7 +142,10 @@ export default function AppAppBar() {
                   <MenuItem>Blog</MenuItem>
                   <Divider sx={{my: 3}}/>
                   <MenuItem>
-                    <Button color="primary" variant="contained" fullWidth>
+                    <Button
+                        color="primary"
+                        variant="contained"
+                        fullWidth>
                       Sign up
                     </Button>
                   </MenuItem>
