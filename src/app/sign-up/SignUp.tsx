@@ -432,7 +432,6 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
                 </Button>
               </Box>
             </Box>
-            {/* Scrollable form wrapper end */}
             <Divider>
               <Typography sx={{color: 'text.secondary'}}>or</Typography>
             </Divider>
