@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 import Breadcrumbs, {breadcrumbsClasses} from '@mui/material/Breadcrumbs';
 import NavigateNextRoundedIcon from '@mui/icons-material/NavigateNextRounded';
 import Link from '@mui/material/Link';
+import {BreadcrumbItem} from "@/page-builder/utils/types";
 
 const StyledBreadcrumbs = styled(Breadcrumbs)(({theme}) => ({
   margin: theme.spacing(1, 0),
@@ -16,11 +17,6 @@ const StyledBreadcrumbs = styled(Breadcrumbs)(({theme}) => ({
   },
 }));
 
-export interface BreadcrumbItem {
-  label: string;
-  active?: boolean;
-  path?: string; // Legg til path for dynamisk ruting
-}
 
 interface NavbarBreadcrumbs {
   breadcrumbs: BreadcrumbItem[];

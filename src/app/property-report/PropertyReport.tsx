@@ -18,13 +18,21 @@ const xThemeComponents = {
   ...treeViewCustomizations,
 };
 
+const propertyReportHeaderConfig = {
+  title: "Eiendomsrapport",
+  breadcrumbs: [
+    {label: "Home", path: "/"},
+    {label: "Property Report", path: "/property-report", active: false},
+  ],
+};
+
 export default function propertyReport(props: { disableCustomTheme?: boolean }) {
   return (
       <AppTheme {...props} themeComponents={xThemeComponents}>
         <CssBaseline enableColorScheme/>
         <Box sx={{display: 'flex'}}>
           <SideMenu/>
-          <AppNavbar title="Dashb"/>
+          <AppNavbar title={propertyReportHeaderConfig.title}/>
           {/* Main content */}
           <Box
               component="main"
@@ -45,7 +53,7 @@ export default function propertyReport(props: { disableCustomTheme?: boolean }) 
                   mt: {xs: 8, md: 0},
                 }}
             >
-              <Header/>
+              <Header breadcrumbs={propertyReportHeaderConfig.breadcrumbs}/>
               <MainGrid/>
             </Stack>
           </Box>
