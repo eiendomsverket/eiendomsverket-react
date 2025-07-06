@@ -9,45 +9,18 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 
-import {
-  IndiaFlag,
-  UsaFlag,
-  BrazilFlag,
-  GlobeFlag,
-} from '../internals/components/CustomIcons';
-
-const data = [
-  { label: 'India', value: 50000 },
-  { label: 'USA', value: 35000 },
-  { label: 'Brazil', value: 10000 },
-  { label: 'Other', value: 5000 },
+const defaultData = [
+  { label: 'India', value: 50 },
+  { label: 'USA', value: 35 },
+  { label: 'Brazil', value: 10 },
+  { label: 'Other', value: 5 },
 ];
 
-const countries = [
-  {
-    name: 'India',
-    value: 50,
-    flag: <IndiaFlag />,
-    color: 'hsl(220, 25%, 65%)',
-  },
-  {
-    name: 'USA',
-    value: 35,
-    flag: <UsaFlag />,
-    color: 'hsl(220, 25%, 45%)',
-  },
-  {
-    name: 'Brazil',
-    value: 10,
-    flag: <BrazilFlag />,
-    color: 'hsl(220, 25%, 30%)',
-  },
-  {
-    name: 'Other',
-    value: 5,
-    flag: <GlobeFlag />,
-    color: 'hsl(220, 25%, 20%)',
-  },
+const defaultColors = [
+  'hsl(220, 20%, 65%)',
+  'hsl(220, 20%, 42%)',
+  'hsl(220, 20%, 35%)',
+  'hsl(220, 20%, 25%)',
 ];
 
 interface StyledTextProps {
@@ -114,14 +87,31 @@ function PieCenterLabel({ primaryText, secondaryText }: PieCenterLabelProps) {
   );
 }
 
-const colors = [
-  'hsl(220, 20%, 65%)',
-  'hsl(220, 20%, 42%)',
-  'hsl(220, 20%, 35%)',
-  'hsl(220, 20%, 25%)',
-];
+export interface ChartUserByCountryProps {
+  title?: string;
+  data?: { label: string; value: number }[];
+  colors?: string[];
+  height?: number;
+  width?: number;
+}
 
-export default function ChartUserByCountry() {
+export default function ChartUserByCountry({
+  title = 'Users by country',
+  data = defaultData,
+  colors = defaultColors,
+  height = 260,
+  width = 260,
+}: ChartUserByCountryProps) {
+  const countries = React.useMemo(
+    () =>
+      data.map((country, index) => ({
+        name: country.label,
+        value: country.value,
+        color: colors[index % colors.length],
+      })),
+    [data, colors],
+  );
+
   return (
     <Card
       variant="outlined"
@@ -129,7 +119,7 @@ export default function ChartUserByCountry() {
     >
       <CardContent>
         <Typography component="h2" variant="subtitle2">
-          Users by country
+          {title}
         </Typography>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <PieChart
@@ -149,8 +139,8 @@ export default function ChartUserByCountry() {
                 highlightScope: { fade: 'global', highlight: 'item' },
               },
             ]}
-            height={260}
-            width={260}
+            height={height}
+            width={width}
             hideLegend
           >
             <PieCenterLabel primaryText="98.5K" secondaryText="Total" />
@@ -162,7 +152,6 @@ export default function ChartUserByCountry() {
             direction="row"
             sx={{ alignItems: 'center', gap: 2, pb: 2 }}
           >
-            {country.flag}
             <Stack sx={{ gap: 1, flexGrow: 1 }}>
               <Stack
                 direction="row"

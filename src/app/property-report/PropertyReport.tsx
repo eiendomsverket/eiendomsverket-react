@@ -50,6 +50,94 @@ const userProfile = {
   optionsMenuItems,
 };
 
+// Stat cards data
+const statCards = [
+  {
+    title: 'Users',
+    value: '14k',
+    interval: 'Last 30 days',
+    trend: 'up',
+    data: [
+      200, 24, 220, 260, 240, 380, 100, 240, 280, 240, 300, 340, 320, 360, 340, 380,
+      360, 400, 380, 420, 400, 640, 340, 460, 440, 480, 460, 600, 880, 920,
+    ],
+  },
+  {
+    title: 'Conversions',
+    value: '325',
+    interval: 'Last 30 days',
+    trend: 'down',
+    data: [
+      1640, 1250, 970, 1130, 1050, 900, 720, 1080, 900, 450, 920, 820, 840, 600, 820,
+      780, 800, 760, 380, 740, 660, 620, 840, 500, 520, 480, 400, 360, 300, 220,
+    ],
+  },
+  {
+    title: 'Event count',
+    value: '200k',
+    interval: 'Last 30 days',
+    trend: 'neutral',
+    data: [
+      500, 400, 510, 530, 520, 600, 530, 520, 510, 730, 520, 510, 530, 620, 510, 530,
+      520, 410, 530, 520, 610, 530, 520, 610, 530, 420, 510, 430, 520, 510,
+    ],
+  },
+];
+
+const highlightedCardProps = {
+  title: 'Explore your data',
+  description: 'Uncover performance and visitor insights with our data wizardry.',
+  buttonText: 'Get insights',
+};
+
+const sessionsChartProps = {
+  title: 'Sessions',
+  value: '12.4k',
+  chipLabel: '+12%',
+  chipColor: 'success',
+  caption: 'Sessions for the last 30 days',
+  chartData: [
+    300, 900, 600, 1200, 1500, 1800, 2400, 2100, 2700, 3000, 1800, 3300,
+    3600, 3900, 4200, 4500, 3900, 4800, 5100, 5400, 4800, 5700, 6000,
+    6300, 6600, 6900, 7200, 7500, 7800, 8100,
+  ],
+  chartLabels: [
+    'Jan 1', 'Jan 2', 'Jan 3', 'Jan 4', 'Jan 5', 'Jan 6', 'Jan 7', 'Jan 8',
+    'Jan 9', 'Jan 10', 'Jan 11', 'Jan 12', 'Jan 13', 'Jan 14', 'Jan 15',
+    'Jan 16', 'Jan 17', 'Jan 18', 'Jan 19', 'Jan 20', 'Jan 21', 'Jan 22',
+    'Jan 23', 'Jan 24', 'Jan 25', 'Jan 26', 'Jan 27', 'Jan 28', 'Jan 29',
+    'Jan 30',
+  ],
+};
+
+const pageViewsBarChartProps = {
+  title: 'Page views and downloads',
+  value: '1.3M',
+  chipLabel: '-8%',
+  chipColor: 'error',
+  caption: 'Page views and downloads for the last 6 months',
+  xAxisData: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+  series: [
+    {
+      id: 'page-views',
+      label: 'Page views',
+      data: [2234, 3872, 2998, 4125, 3357, 2789, 2998],
+      stack: 'A',
+    },
+    {
+      id: 'downloads',
+      label: 'Downloads',
+      data: [1234, 1872, 999, 2125, 1357, 1789, 1998],
+      stack: 'A',
+    },
+  ],
+};
+
+const customizedDataGridProps = {};
+const customizedTreeViewProps = {};
+const chartUserByCountryProps = {};
+const copyrightProps = {};
+
 export default function propertyReport(props: { disableCustomTheme?: boolean }) {
   return (
       <AppTheme {...props} themeComponents={xThemeComponents}>
@@ -85,7 +173,16 @@ export default function propertyReport(props: { disableCustomTheme?: boolean }) 
                 }}
             >
               <Header breadcrumbs={propertyReportHeaderConfig.breadcrumbs}/>
-              <MainGrid/>
+              <MainGrid
+                statCards={statCards}
+                highlightedCardProps={highlightedCardProps}
+                sessionsChartProps={sessionsChartProps}
+                pageViewsBarChartProps={pageViewsBarChartProps}
+                customizedDataGridProps={customizedDataGridProps}
+                customizedTreeViewProps={customizedTreeViewProps}
+                chartUserByCountryProps={chartUserByCountryProps}
+                copyrightProps={copyrightProps}
+              />
             </Stack>
           </Box>
         </Box>

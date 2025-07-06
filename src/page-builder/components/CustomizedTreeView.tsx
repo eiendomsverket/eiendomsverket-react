@@ -174,7 +174,16 @@ const CustomTreeItem = React.forwardRef(function CustomTreeItem(
   );
 });
 
-export default function CustomizedTreeView() {
+export interface CustomizedTreeViewProps {
+  title?: string;
+  items?: TreeViewBaseItem<ExtendedTreeItemProps>[];
+  // Add more props as needed for flexibility
+}
+
+export default function CustomizedTreeView({
+  title = 'Product tree',
+  items = ITEMS,
+}: CustomizedTreeViewProps) {
   return (
     <Card
       variant="outlined"
@@ -182,10 +191,10 @@ export default function CustomizedTreeView() {
     >
       <CardContent>
         <Typography component="h2" variant="subtitle2">
-          Product tree
+          {title}
         </Typography>
         <RichTreeView
-          items={ITEMS}
+          items={items}
           aria-label="pages"
           multiSelect
           defaultExpandedItems={['1', '1.1']}
