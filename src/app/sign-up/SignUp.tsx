@@ -17,18 +17,11 @@ import AppTheme from '../shared-theme/AppTheme';
 import ColorModeSelect from '../shared-theme/ColorModeSelect';
 import {FacebookIcon, GoogleIcon} from './components/CustomIcons';
 import Radio from '@mui/material/Radio';
-import {
-  checkCompanyExists,
-  checkUserExists,
-  createCompanyWithAddress,
-  createUser,
-  fetchBrregOrgData
-} from '../utils/api';
-import type {Address, Company, User} from '../utils/types';
-import MenuItem from '@mui/material/MenuItem';
+import {checkCompanyExists, checkUserExists, createUser, fetchBrregOrgData} from '../utils/api';
+import type {User} from '../utils/types';
 import {RadioGroup} from "@mui/material";
 
-const Card = styled(MuiCard)(({ theme }) => ({
+const Card = styled(MuiCard)(({theme}) => ({
   display: 'flex',
   flexDirection: 'column',
   alignSelf: 'center',
@@ -37,17 +30,17 @@ const Card = styled(MuiCard)(({ theme }) => ({
   gap: theme.spacing(2),
   margin: 'auto',
   boxShadow:
-    'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
+      'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
   [theme.breakpoints.up('sm')]: {
     width: '450px',
   },
   ...theme.applyStyles('dark', {
     boxShadow:
-      'hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px',
+        'hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px',
   }),
 }));
 
-const SignUpContainer = styled(Stack)(({ theme }) => ({
+const SignUpContainer = styled(Stack)(({theme}) => ({
   height: 'calc((1 - var(--template-frame-height, 0)) * 100dvh)',
   minHeight: '100%',
   padding: theme.spacing(2),
@@ -61,11 +54,11 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
     zIndex: -1,
     inset: 0,
     backgroundImage:
-      'radial-gradient(ellipse at 50% 50%, hsl(210, 100%, 97%), hsl(0, 0%, 100%))',
+        'radial-gradient(ellipse at 50% 50%, hsl(210, 100%, 97%), hsl(0, 0%, 100%))',
     backgroundRepeat: 'no-repeat',
     ...theme.applyStyles('dark', {
       backgroundImage:
-        'radial-gradient(at 50% 50%, hsla(210, 100%, 16%, 0.5), hsl(220, 30%, 5%))',
+          'radial-gradient(at 50% 50%, hsla(210, 100%, 16%, 0.5), hsl(220, 30%, 5%))',
     }),
   },
 }));
@@ -83,7 +76,7 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
   const [orgForm, setOrgForm] = React.useState('MEGLER');
   const [orgNumberError, setOrgNumberError] = React.useState(false);
   const [orgNumberErrorMessage, setOrgNumberErrorMessage] = React.useState('');
-  const [orgData, setOrgData] = React.useState<any>(null);
+  const [, setOrgData] = React.useState<string>(' ');
 
   const fetchOrgData = async (orgNumber: string) => {
     const data = await fetchBrregOrgData(orgNumber);
@@ -114,7 +107,7 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
   const validateInputs = () => {
     const email = document.getElementById('email') as HTMLInputElement;
     const password = document.getElementById('password') as HTMLInputElement;
-    const name = document.getElementById('name') as HTMLInputElement;
+    const name = document.getElementById('fornavn') as HTMLInputElement;
     const company = document.getElementById('company') as HTMLInputElement;
     const orgNumber = document.getElementById('orgNumber') as HTMLInputElement;
 
@@ -137,6 +130,8 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
       setPasswordError(false);
       setPasswordErrorMessage('');
     }
+
+    console.log("name check " + name.value)
 
     if (!name.value || name.value.length < 1) {
       setNameError(true);
@@ -169,21 +164,21 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const companyOrgNumber = data.get('orgNumber');
+    const companyOrgNumber = Number(data.get('orgNumber'));
     const userEmail = data.get('email');
-    const firstname = data.get('fornavn') as string;
-    const surname = data.get('etternavn') as string;
+    const firstName = data.get('fornavn') as string;
+    const lastName = data.get('etternavn') as string;
     const email = userEmail as string;
-    const phone_number = data.get('mobilNummer') as string;
+    const phoneNumber = data.get('mobilNummer') as string;
     const password = data.get('password') as string;
     const userRole = role.toUpperCase() as User['role'];
-    const company = companyOrgNumber;
 
     if (nameError || emailError || passwordError) {
       return;
     }
-    const companyExists = await checkCompanyExists(companyOrgNumber as string);
+    const companyExists = await checkCompanyExists(companyOrgNumber);
 
+    console.log('Company exists:', companyExists, 'for org number:', typeof companyOrgNumber);
     if (companyExists) {
 
 
@@ -194,50 +189,21 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
       }
 
       const user: User = {
-        firstname,
-        surname,
+        firstName: firstName,
+        lastName: lastName,
         email,
-        phone_number,
+        phoneNumber: phoneNumber,
         password,
         role: userRole,
-        company,
+        company: companyOrgNumber,
       };
 
+      console.log('Creating user with data with existing company:', user);
       await createUser(user);
       alert('Bruker opprettet og knyttet til eksisterende selskap!');
       return;
-    } else {
-      // const address: Address = {
-      //   street_line_1: (data.get('address') as string) || '',
-      //   zip_code: (data.get('zip_code') as string) || '',
-      //   city: (data.get('city') as string) || '',
-      //   country_code: 'NO',
-      //   kommune: (data.get('kommune') as string) || '',
-      // };
-      // const company: Company = {
-      //   name: (data.get('company') as string) || '',
-      //   organization_number: Number(companyOrgNumber),
-      //   type: 'MEGLER', // You may want to map this dynamically
-      //   office_address: address,
-      // };
-
-
-      // const createdCompany = await createCompanyWithAddress(company);
-
-      const user: User = {
-        firstName: data.get('fornavn') as string,
-        lastName: data.get("etternavn") as string,
-        email: userEmail as string,
-        phoneNumber: data.get('mobilNummer') as string,
-        password: data.get('password') as string,
-        role: role.toUpperCase() as User['role'],
-        company: companyOrgNumber,
-      };
-      await createUser(user);
-      alert('Selskap og bruker opprettet!');
-    };
     }
-
+  }
 
 
   return (
@@ -254,7 +220,7 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
               Sign up
             </Typography>
 
-            <Box sx={{maxHeight: 500, overflowY: 'auto', width: '100%', px:3, py: 2}}>
+            <Box sx={{maxHeight: 500, overflowY: 'auto', width: '100%', px: 3, py: 2}}>
               <Box
                   component="form"
                   onSubmit={handleSubmit}
@@ -347,10 +313,10 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
                       value={orgForm}
                       onChange={e => setOrgForm(e.target.value)}
                   >
-                    <FormControlLabel value="MEGLER" control={<Radio />} label="Megler" />
-                    <FormControlLabel value="TAKST" control={<Radio />} label="Takst" />
-                    <FormControlLabel value="FORSIKRING" control={<Radio />} label="Forsikring" />
-                    <FormControlLabel value="BANK" control={<Radio />} label="Bank" />
+                    <FormControlLabel value="MEGLER" control={<Radio/>} label="Megler"/>
+                    <FormControlLabel value="TAKST" control={<Radio/>} label="Takst"/>
+                    <FormControlLabel value="FORSIKRING" control={<Radio/>} label="Forsikring"/>
+                    <FormControlLabel value="BANK" control={<Radio/>} label="Bank"/>
                   </RadioGroup>
                 </FormControl>
                 <FormControl>
@@ -363,13 +329,15 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
                       value={role}
                       onChange={e => setRole(e.target.value)}
                   >
-                    <FormControlLabel value="megler" control={<Radio />} label="Megler" />
-                    <FormControlLabel value="takstmann" control={<Radio />} label="Takstmann" />
-                    <FormControlLabel value="privatperson" control={<Radio />} label="Privatperson" />
-                    <FormControlLabel value="administrasjonsmedarbeider" control={<Radio />} label="Administrasjonsmedarbeider" />
-                    <FormControlLabel value="prosjektleder" control={<Radio />} label="Prosjektleder" />
-                    <FormControlLabel value="radgiver" control={<Radio />} label="Rådgiver" />
-                    <FormControlLabel value="leder" control={<Radio />} label="Leder" />
+                    <FormControlLabel value="megler" control={<Radio/>} label="Megler"/>
+                    <FormControlLabel value="takstmann" control={<Radio/>} label="Takstmann"/>
+                    <FormControlLabel value="privatperson" control={<Radio/>} label="Privatperson"/>
+                    <FormControlLabel value="administrasjonsmedarbeider" control={<Radio/>}
+                                      label="Administrasjonsmedarbeider"/>
+                    <FormControlLabel value="prosjektleder" control={<Radio/>}
+                                      label="Prosjektleder"/>
+                    <FormControlLabel value="radgiver" control={<Radio/>} label="Rådgiver"/>
+                    <FormControlLabel value="leder" control={<Radio/>} label="Leder"/>
                   </RadioGroup>
                 </FormControl>
                 <FormControl>
