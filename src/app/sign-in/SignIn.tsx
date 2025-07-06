@@ -87,8 +87,9 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
     }
     const data = new FormData(event.currentTarget);
     const email = data.get('email') as string;
-    console.log('Email: ', email);
     const password = data.get('password') as string;
+
+    console.log('Email: ', email);
     console.log("Password: ", password);
     try {
       console.log("Attempting to log in with email: ", email);
