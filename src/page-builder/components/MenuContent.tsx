@@ -13,26 +13,24 @@ import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import HelpRoundedIcon from '@mui/icons-material/HelpRounded';
 
-const mainListItems = [
-  { text: 'Home', icon: <HomeRoundedIcon /> },
-  { text: 'Analytics', icon: <AnalyticsRoundedIcon /> },
-  { text: 'Clients', icon: <PeopleRoundedIcon /> },
-  { text: 'Tasks', icon: <AssignmentRoundedIcon /> },
-];
+export interface MenuItem {
+  text: string;
+  icon: React.ReactNode;
+  path: string;
+}
 
-const secondaryListItems = [
-  { text: 'Settings', icon: <SettingsRoundedIcon /> },
-  { text: 'About', icon: <InfoRoundedIcon /> },
-  { text: 'Feedback', icon: <HelpRoundedIcon /> },
-];
+interface MenuContentProps {
+  mainListItems: MenuItem[];
+  secondaryListItems: MenuItem[];
+}
 
-export default function MenuContent() {
+export default function MenuContent({ mainListItems, secondaryListItems }: MenuContentProps) {
   return (
     <Stack sx={{ flexGrow: 1, p: 1, justifyContent: 'space-between' }}>
       <List dense>
         {mainListItems.map((item, index) => (
           <ListItem key={index} disablePadding sx={{ display: 'block' }}>
-            <ListItemButton selected={index === 0}>
+            <ListItemButton component="a" href={item.path} selected={index === 0}>
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItemButton>
@@ -42,7 +40,7 @@ export default function MenuContent() {
       <List dense>
         {secondaryListItems.map((item, index) => (
           <ListItem key={index} disablePadding sx={{ display: 'block' }}>
-            <ListItemButton>
+            <ListItemButton component="a" href={item.path}>
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItemButton>
@@ -52,3 +50,18 @@ export default function MenuContent() {
     </Stack>
   );
 }
+
+const mainListItems: MenuItem[] = [
+  { text: 'Home', icon: <HomeRoundedIcon />, path: '/' },
+  { text: 'Analytics', icon: <AnalyticsRoundedIcon />, path: '/analytics' },
+  { text: 'Clients', icon: <PeopleRoundedIcon />, path: '/clients' },
+  { text: 'Tasks', icon: <AssignmentRoundedIcon />, path: '/tasks' },
+];
+
+const secondaryListItems: MenuItem[] = [
+  { text: 'Settings', icon: <SettingsRoundedIcon />, path: '/settings' },
+  { text: 'About', icon: <InfoRoundedIcon />, path: '/about' },
+  { text: 'Feedback', icon: <HelpRoundedIcon />, path: '/feedback' },
+];
+
+export { mainListItems, secondaryListItems };

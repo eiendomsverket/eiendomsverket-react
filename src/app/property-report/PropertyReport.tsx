@@ -10,6 +10,8 @@ import {
 import AppNavbar from "@/page-builder/components/AppNavbar";
 import Header from "@/page-builder/components/Header";
 import MainGrid from "@/page-builder/components/MainGrid";
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+import {mainListItems, secondaryListItems} from "@/page-builder/components/MenuContent";
 
 const xThemeComponents = {
   ...chartsCustomizations,
@@ -26,14 +28,43 @@ const propertyReportHeaderConfig = {
   ],
 };
 
+const optionsMenuItems = [
+  {label: 'Profile'},
+  {label: 'My account'},
+  {dividerBefore: true, label: 'Add another account'},
+  {label: 'Settings'},
+  {dividerBefore: true, label: 'Logout', icon: <LogoutRoundedIcon/>},
+];
+
+const cardAlertProps = {
+  title: "Plan about to expire",
+  description: "Enjoy 10% off when renewing your plan today.",
+  buttonText: "Get the discount",
+  icon: <LogoutRoundedIcon fontSize="small"/>,
+};
+
+const userProfile = {
+  name: 'Riley Carter',
+  email: 'riley@email.com',
+  avatarSrc: '/static/images/avatar/7.jpg',
+  optionsMenuItems,
+};
+
 export default function propertyReport(props: { disableCustomTheme?: boolean }) {
   return (
       <AppTheme {...props} themeComponents={xThemeComponents}>
         <CssBaseline enableColorScheme/>
         <Box sx={{display: 'flex'}}>
-          <SideMenu/>
+          <SideMenu
+              name={userProfile.name}
+              email={userProfile.email}
+              avatarSrc={userProfile.avatarSrc}
+              optionsMenuItems={userProfile.optionsMenuItems}
+              mainListItems={mainListItems}
+              secondaryListItems={secondaryListItems}
+              cardAlertProps={cardAlertProps}
+          />
           <AppNavbar title={propertyReportHeaderConfig.title}/>
-          {/* Main content */}
           <Box
               component="main"
               sx={(theme) => ({

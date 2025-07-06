@@ -15,7 +15,19 @@ const MenuItem = styled(MuiMenuItem)({
   margin: '2px 0',
 });
 
-export default function OptionsMenu() {
+export interface OptionsMenuItem {
+  label: string;
+  icon?: React.ReactNode;
+  onClick?: () => void;
+  sx?: object;
+  dividerBefore?: boolean;
+}
+
+export interface OptionsMenuProps {
+  items: OptionsMenuItem[];
+}
+
+export default function OptionsMenu({ items }: OptionsMenuProps) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -53,26 +65,21 @@ export default function OptionsMenu() {
           },
         }}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <Divider />
-        <MenuItem onClick={handleClose}>Add another account</MenuItem>
-        <MenuItem onClick={handleClose}>Settings</MenuItem>
-        <Divider />
-        <MenuItem
-          onClick={handleClose}
-          sx={{
-            [`& .${listItemIconClasses.root}`]: {
-              ml: 'auto',
-              minWidth: 0,
-            },
-          }}
-        >
-          <ListItemText>Logout</ListItemText>
-          <ListItemIcon>
-            <LogoutRoundedIcon fontSize="small" />
-          </ListItemIcon>
-        </MenuItem>
+        {items.map((item, idx) => (
+          <React.Fragment key={item.label}>
+            {item.dividerBefore && <Divider />}
+            <MenuItem
+              onClick={() => {
+                handleClose();
+                item.onClick && item.onClick();
+              }}
+              sx={item.sx}
+            >
+              <ListItemText>{item.label}</ListItemText>
+              {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
+            </MenuItem>
+          </React.Fragment>
+        ))}
       </Menu>
     </React.Fragment>
   );
