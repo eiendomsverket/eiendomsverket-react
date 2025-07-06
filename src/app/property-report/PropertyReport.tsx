@@ -50,7 +50,6 @@ const userProfile = {
   optionsMenuItems,
 };
 
-// Stat cards data
 const statCards = [
   {
     title: 'Users',
