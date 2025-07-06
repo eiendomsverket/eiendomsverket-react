@@ -14,58 +14,18 @@ import StatCard, { StatCardProps } from './StatCard';
 
 
 
-export const myTreeItems = [
-  {
-    id: '1',
-    label: 'Website',
-    children: [
-      { id: '1.1', label: 'Home', color: 'green' },
-      { id: '1.2', label: 'Pricing', color: 'green' },
-      { id: '1.3', label: 'About us', color: 'green' },
-      {
-        id: '1.4',
-        label: 'Blog',
-        children: [
-          { id: '1.1.1', label: 'Announcements', color: 'blue' },
-          { id: '1.1.2', label: 'April lookahead', color: 'blue' },
-          { id: '1.1.3', label: "What's new", color: 'blue' },
-          { id: '1.1.4', label: 'Meet the team', color: 'blue' },
-        ],
-      },
-    ],
-  },
-  {
-    id: '2',
-    label: 'Store',
-    children: [
-      { id: '2.1', label: 'All products', color: 'green' },
-      {
-        id: '2.2',
-        label: 'Categories',
-        children: [
-          { id: '2.2.1', label: 'Gadgets', color: 'blue' },
-          { id: '2.2.2', label: 'Phones', color: 'blue' },
-          { id: '2.2.3', label: 'Wearables', color: 'blue' },
-        ],
-      },
-      { id: '2.3', label: 'Bestsellers', color: 'green' },
-      { id: '2.4', label: 'Sales', color: 'green' },
-    ],
-  },
-  { id: '4', label: 'Contact', color: 'blue' },
-  { id: '5', label: 'Help', color: 'blue' },
-];
-
 export interface MainGridProps {
   overviewTitle?: string;
   detailsTitle?: string;
   chartUserByCountryProps?: ChartUserByCountryProps;
+  myTreeItems?: any[];
 }
 
 export default function MainGrid({
   overviewTitle,
   detailsTitle,
   chartUserByCountryProps,
+  myTreeItems,
 }: MainGridProps) {
   return (
     <Box sx={{ width: '100%', maxWidth: { sm: '100%', md: '1700px' } }}>
