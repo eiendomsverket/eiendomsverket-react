@@ -135,7 +135,23 @@ const pageViewsBarChartProps = {
 
 const customizedDataGridProps = {};
 const customizedTreeViewProps = {};
-const chartUserByCountryProps = {};
+const chartUserByCountryProps = {
+  title: 'Users by country',
+  data: [
+    {label: 'India', value: 50},
+    {label: 'USA', value: 35},
+    {label: 'Brazil', value: 10},
+    {label: 'Other', value: 5},
+  ],
+  colors: [
+    'hsl(220, 20%, 65%)',
+    'hsl(220, 20%, 42%)',
+    'hsl(220, 20%, 35%)',
+    'hsl(220, 20%, 25%)',
+  ],
+  height: 260,
+  width: 260,
+};
 const copyrightProps = {};
 
 export default function propertyReport(props: { disableCustomTheme?: boolean }) {
@@ -174,14 +190,16 @@ export default function propertyReport(props: { disableCustomTheme?: boolean }) 
             >
               <Header breadcrumbs={propertyReportHeaderConfig.breadcrumbs}/>
               <MainGrid
-                statCards={statCards}
-                highlightedCardProps={highlightedCardProps}
-                sessionsChartProps={sessionsChartProps}
-                pageViewsBarChartProps={pageViewsBarChartProps}
-                customizedDataGridProps={customizedDataGridProps}
-                customizedTreeViewProps={customizedTreeViewProps}
-                chartUserByCountryProps={chartUserByCountryProps}
-                copyrightProps={copyrightProps}
+                  overviewTitle="Property Overview"
+                  detailsTitle="Property Details"
+                  statCards={statCards}
+                  highlightedCardProps={highlightedCardProps}
+                  sessionsChartProps={sessionsChartProps}
+                  pageViewsBarChartProps={pageViewsBarChartProps}
+                  customizedDataGridProps={customizedDataGridProps}
+                  customizedTreeViewProps={customizedTreeViewProps}
+                  chartUserByCountryProps={chartUserByCountryProps}
+                  copyrightProps={copyrightProps}
               />
             </Stack>
           </Box>

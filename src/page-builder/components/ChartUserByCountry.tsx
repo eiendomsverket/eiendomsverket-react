@@ -9,20 +9,6 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 
-const defaultData = [
-  { label: 'India', value: 50 },
-  { label: 'USA', value: 35 },
-  { label: 'Brazil', value: 10 },
-  { label: 'Other', value: 5 },
-];
-
-const defaultColors = [
-  'hsl(220, 20%, 65%)',
-  'hsl(220, 20%, 42%)',
-  'hsl(220, 20%, 35%)',
-  'hsl(220, 20%, 25%)',
-];
-
 interface StyledTextProps {
   variant: 'primary' | 'secondary';
 }
@@ -89,25 +75,25 @@ function PieCenterLabel({ primaryText, secondaryText }: PieCenterLabelProps) {
 
 export interface ChartUserByCountryProps {
   title?: string;
-  data?: { label: string; value: number }[];
-  colors?: string[];
+  data: { label: string; value: number }[];
+  colors: string[];
   height?: number;
   width?: number;
 }
 
 export default function ChartUserByCountry({
   title = 'Users by country',
-  data = defaultData,
-  colors = defaultColors,
+  data,
+  colors,
   height = 260,
   width = 260,
 }: ChartUserByCountryProps) {
   const countries = React.useMemo(
     () =>
-      data.map((country, index) => ({
+      (data || []).map((country, index) => ({
         name: country.label,
         value: country.value,
-        color: colors[index % colors.length],
+        color: colors && colors.length > 0 ? colors[index % colors.length] : undefined,
       })),
     [data, colors],
   );
