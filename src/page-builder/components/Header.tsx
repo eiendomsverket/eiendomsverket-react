@@ -22,8 +22,13 @@ export default function Header() {
       }}
       spacing={2}
     >
-      <NavbarBreadcrumbs />
-      <Stack direction="row" sx={{ gap: 1 }}>
+      <NavbarBreadcrumbs
+          breadcrumbs={[
+            { label: 'Home', active: false, path: '/' },
+            { label: 'property report', active: false, path: '/property-report' },
+
+          ]}
+      />      <Stack direction="row" sx={{ gap: 1 }}>
         <Search />
         <CustomDatePicker />
         <MenuButton showBadge aria-label="Open notifications">

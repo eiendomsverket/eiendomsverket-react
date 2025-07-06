@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import MuiToolbar from '@mui/material/Toolbar';
-import { tabsClasses } from '@mui/material/Tabs';
+import {tabsClasses} from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
@@ -28,7 +28,20 @@ const Toolbar = styled(MuiToolbar)({
   },
 });
 
-export default function AppNavbar() {
+export type AppNavbarProps = {
+  title?: string;
+  disableCustomTheme?: boolean;
+  hideOnMdUp?: boolean;
+  colorModeToggle?: boolean;
+  showMenuButton?: boolean;
+};
+
+export default function AppNavbar({
+                                    title,
+                                    hideOnMdUp = true,
+                                    colorModeToggle = true,
+                                    showMenuButton = true,
+                                  }: AppNavbarProps) {
   const [open, setOpen] = React.useState(false);
 
   const toggleDrawer = (newOpen: boolean) => () => {
@@ -36,70 +49,72 @@ export default function AppNavbar() {
   };
 
   return (
-    <AppBar
-      position="fixed"
-      sx={{
-        display: { xs: 'auto', md: 'none' },
-        boxShadow: 0,
-        bgcolor: 'background.paper',
-        backgroundImage: 'none',
-        borderBottom: '1px solid',
-        borderColor: 'divider',
-        top: 'var(--template-frame-height, 0px)',
-      }}
-    >
-      <Toolbar variant="regular">
-        <Stack
-          direction="row"
+      <AppBar
+          position="fixed"
           sx={{
-            alignItems: 'center',
-            flexGrow: 1,
-            width: '100%',
-            gap: 1,
+            display: hideOnMdUp ? {xs: 'auto', md: 'none'} : 'auto',
+            boxShadow: 0,
+            bgcolor: 'background.paper',
+            backgroundImage: 'none',
+            borderBottom: '1px solid',
+            borderColor: 'divider',
+            top: 'var(--template-frame-height, 0px)',
           }}
-        >
+      >
+        <Toolbar variant="regular">
           <Stack
-            direction="row"
-            spacing={1}
-            sx={{ justifyContent: 'center', mr: 'auto' }}
+              direction="row"
+              sx={{
+                alignItems: 'center',
+                flexGrow: 1,
+                width: '100%',
+                gap: 1,
+              }}
           >
-            <CustomIcon />
-            <Typography variant="h4" component="h1" sx={{ color: 'text.primary' }}>
-              Dashboard
-            </Typography>
+            <Stack
+                direction="row"
+                spacing={1}
+                sx={{justifyContent: 'center', mr: 'auto'}}
+            >
+              <CustomIcon/>
+              <Typography variant="h4" component="h1" sx={{color: 'text.primary'}}>
+                {title}
+              </Typography>
+            </Stack>
+            {colorModeToggle && <ColorModeIconDropdown/>}
+            {showMenuButton && (
+                <MenuButton aria-label="menu" onClick={toggleDrawer(true)}>
+                  <MenuRoundedIcon/>
+                </MenuButton>
+            )}
+            <SideMenuMobile open={open} toggleDrawer={toggleDrawer}/>
           </Stack>
-          <ColorModeIconDropdown />
-          <MenuButton aria-label="menu" onClick={toggleDrawer(true)}>
-            <MenuRoundedIcon />
-          </MenuButton>
-          <SideMenuMobile open={open} toggleDrawer={toggleDrawer} />
-        </Stack>
-      </Toolbar>
-    </AppBar>
+        </Toolbar>
+      </AppBar>
   );
 }
 
 export function CustomIcon() {
   return (
-    <Box
-      sx={{
-        width: '1.5rem',
-        height: '1.5rem',
-        bgcolor: 'black',
-        borderRadius: '999px',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        alignSelf: 'center',
-        backgroundImage:
-          'linear-gradient(135deg, hsl(210, 98%, 60%) 0%, hsl(210, 100%, 35%) 100%)',
-        color: 'hsla(210, 100%, 95%, 0.9)',
-        border: '1px solid',
-        borderColor: 'hsl(210, 100%, 55%)',
-        boxShadow: 'inset 0 2px 5px rgba(255, 255, 255, 0.3)',
-      }}
-    >
-      <DashboardRoundedIcon color="inherit" sx={{ fontSize: '1rem' }} />
-    </Box>
+      <Box
+          sx={{
+            width: '1.5rem',
+            height: '1.5rem',
+            bgcolor: 'black',
+            borderRadius: '999px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'center',
+            backgroundImage:
+                'linear-gradient(135deg, hsl(210, 98%, 60%) 0%, hsl(210, 100%, 35%) 100%)',
+            color: 'hsla(210, 100%, 95%, 0.9)',
+            border: '1px solid',
+            borderColor: 'hsl(210, 100%, 55%)',
+            boxShadow: 'inset 0 2px 5px rgba(255, 255, 255, 0.3)',
+          }}
+      >
+        <DashboardRoundedIcon color="inherit" sx={{fontSize: '1rem'}}/>
+      </Box>
   );
 }

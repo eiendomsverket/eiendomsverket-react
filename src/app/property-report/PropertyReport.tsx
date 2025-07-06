@@ -24,7 +24,7 @@ export default function propertyReport(props: { disableCustomTheme?: boolean }) 
         <CssBaseline enableColorScheme/>
         <Box sx={{display: 'flex'}}>
           <SideMenu/>
-          <AppNavbar/>
+          <AppNavbar title="Dashb"/>
           {/* Main content */}
           <Box
               component="main"

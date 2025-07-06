@@ -24,7 +24,7 @@ export default function SalesRapport(props: { disableCustomTheme?: boolean }) {
         <CssBaseline enableColorScheme/>
         <Box sx={{display: 'flex'}}>
           <SideMenu/>
-          <AppNavbar/>
+          <AppNavbar title="mosti"/>
           {/* Main content */}
           <Box
               component="main"
