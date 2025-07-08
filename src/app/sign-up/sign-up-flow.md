@@ -10,10 +10,15 @@ flowchart TD
     A[Start: User write form data] --> B[Check if company exists]
     B --> C{Company exists?}
     C -- Yes --> D[Check if user exists]
-    C -- NO --> E[Show alert: Company does not exist]
+    C -- NO --> E[If user role is leader]
+    E --> J["Create user with form data"]
+    J --> K["create company with form data"]
+    K -->I 
+    E -- No --> I[Show alert: Company does not exist]
     D --> F{User exists?}
-    F -- Yes --> G[Show alert: User already exists]
-    F -- No --> H[Create user with form data]
+F -- Yes --> G[Show alert: User already exists]
+F -- No --> H[Create user with form data]
+H --> I[End: User created successfully]
 ```
 
 2. **Sekvensdiagram**: Viser detaljene i registreringsprosessen, inkludert interaksjoner mellom applikasjonen, API-et og databasen.

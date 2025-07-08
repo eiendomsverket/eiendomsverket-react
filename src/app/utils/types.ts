@@ -13,11 +13,14 @@ export type CompanyType = 'TAKST' | 'MEGLER' | 'FORSIKRING' | 'BANK';
 
 export type Company = {
   name: string;
-  organization_number: number;
   type: CompanyType;
-  office_address: Address;
+  organizationNumber: number;
+  officeAddress: Address;
   verified?: boolean;
 };
+
+
+
 
 export type UserRole =
   | 'PRIVATPERSON'
@@ -37,4 +40,3 @@ export type User = {
   role: UserRole;
   company?: number;
 };
-

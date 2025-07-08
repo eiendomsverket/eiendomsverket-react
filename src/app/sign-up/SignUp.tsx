@@ -17,8 +17,14 @@ import AppTheme from '../shared-theme/AppTheme';
 import ColorModeSelect from '../shared-theme/ColorModeSelect';
 import {FacebookIcon, GoogleIcon} from './components/CustomIcons';
 import Radio from '@mui/material/Radio';
-import {checkCompanyExists, checkUserExists, createUser, fetchBrregOrgData} from '../utils/api';
-import type {User} from '../utils/types';
+import {
+  checkCompanyExists,
+  checkUserExists,
+  createCompany,
+  createUser,
+  fetchBrregOrgData
+} from '../utils/api';
+import type {companyType, User} from '../utils/types';
 import {RadioGroup} from "@mui/material";
 
 const Card = styled(MuiCard)(({theme}) => ({
@@ -172,6 +178,11 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
     const phoneNumber = data.get('mobilNummer') as string;
     const password = data.get('password') as string;
     const userRole = role.toUpperCase() as User['role'];
+    const orgName = data.get('company') as string;
+    const orgAddress = data.get('address') as string;
+    const orgZipCode = data.get('zip_code') as string;
+    const orgCity = data.get('city') as string;
+
 
     if (nameError || emailError || passwordError) {
       return;
@@ -202,6 +213,46 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
       await createUser(user);
       alert('Bruker opprettet og knyttet til eksisterende selskap!');
       return;
+    } else {
+
+      if (userRole === "LEDER") {
+        const user: User = {
+          firstName: firstName,
+          lastName: lastName,
+          email,
+          phoneNumber: phoneNumber,
+          password,
+          role: userRole,
+          company: companyOrgNumber,
+        };
+
+
+        console.log('Creating user with data with existing company:', user);
+        await createUser(user);
+
+
+        const company = {
+          name: orgName,
+          organizationNumber: companyOrgNumber,
+          type: orgForm as companyType,
+          officeAddress: {
+            streetLine1: orgAddress,
+            zipCode: orgZipCode,
+            city: orgCity
+          },
+        };
+
+        console.log('Creating company with data:', company);
+        try {
+          await createCompany(company);
+          alert('Bruker og selskap opprettet!');
+        } catch (error) {
+          console.error('Error creating company:', error);
+          alert('Feil ved oppretting av selskap. Vennligst prøv igjen.');
+        }
+      } else {
+        alert('Kun ledere kan opprette nye selskaper. Vennligst kontakt en leder for å opprette selskapet.');
+      }
     }
   }
 
@@ -382,40 +433,29 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
                       fullWidth
                       id="address"
                       placeholder="123 Main St"
-                      disabled
+                      readOnly
                   />
                 </FormControl>
                 <FormControl>
-                  <FormLabel htmlFor="zip_code">Postnummer (Zip Code)</FormLabel>
+                  <FormLabel htmlFor="zip_code">Postnummer</FormLabel>
                   <TextField
                       autoComplete="postal-code"
                       name="zip_code"
                       fullWidth
                       id="zip_code"
                       placeholder="12345"
-                      disabled
+                      readOnly
                   />
                 </FormControl>
                 <FormControl>
-                  <FormLabel htmlFor="city">Poststed (City)</FormLabel>
+                  <FormLabel htmlFor="city">Poststed</FormLabel>
                   <TextField
                       autoComplete="address-level2"
                       name="city"
                       fullWidth
                       id="city"
                       placeholder="Oslo"
-                      disabled
-                  />
-                </FormControl>
-                <FormControl>
-                  <FormLabel htmlFor="kommune">Kommune (Municipality)</FormLabel>
-                  <TextField
-                      autoComplete="address-level1"
-                      name="kommune"
-                      fullWidth
-                      id="kommune"
-                      placeholder="Oslo"
-                      disabled
+                      readOnly
                   />
                 </FormControl>
                 <FormControlLabel

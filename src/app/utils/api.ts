@@ -20,11 +20,6 @@ export async function fetchBrregOrgData(orgNumber: string) {
 }
 
 
-export async function createCompanyWithAddress(company: Company) {
-
-
-}
-
 export async function checkCompanyExists(organization_number: string | number) {
   const res = await axios.get(`${ENDPOINTS.company}/exists/${organization_number}`);
   return res.data;
@@ -41,4 +36,22 @@ export async function createUser(user: User) {
     ...user,
   });
   return res.data;
+}
+
+export async function createCompany(payload: Company) {
+  const response = await fetch(ENDPOINTS.company, {
+    method: 'POST',
+    headers: {
+      'accept': '*/*',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  });
+
+  console.log(response)
+
+  if (!response.ok) {
+    throw new Error('Failed to create company');
+  }
+  return response.json();
 }
