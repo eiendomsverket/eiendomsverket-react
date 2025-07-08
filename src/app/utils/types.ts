@@ -52,7 +52,7 @@ export type ReportUser = {
   phoneNumber: string;
   role: string;
   password: string;
-  company: string;
+  company: ReportCompany;
   created: string;
 };
 
@@ -64,12 +64,12 @@ export type ReportCompany = {
   officeAddress: {
     id: number;
     streetLine1: string;
-    streetLine2: string;
+    streetLine2: string | null;
     zipCode: string;
     city: string;
   };
   joined: string;
-  users: ReportUser[];
+  users?: ReportUser[];
   verified: boolean;
 };
 
