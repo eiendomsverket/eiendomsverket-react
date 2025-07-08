@@ -105,9 +105,9 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
           const role = decoded?.role;
           console.log("role: " + role);
           if (role === 'MEGLER') {
-            router.push('/dashboard');
+            router.push('/sales-notification');
           } else if (role === 'TAKSTMANN') {
-            router.push('/dashboard');
+            router.push('/property-report');
           } else {
             router.push('/');
           }
