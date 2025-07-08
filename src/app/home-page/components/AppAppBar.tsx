@@ -48,6 +48,13 @@ export default function AppAppBar() {
     setOpen(newOpen);
   };
 
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
       <AppBar
           position="fixed"
@@ -64,23 +71,20 @@ export default function AppAppBar() {
             <Box sx={{flexGrow: 1, display: 'flex', alignItems: 'center', px: 0}}>
               <Sitemark/>
               <Box sx={{display: {xs: 'none', md: 'flex'}}}>
-                <Button variant="text" color="info" size="small">
+                <Button variant="text" color="info" size="small" onClick={() => scrollToSection('features')}>
                   Features
                 </Button>
-                <Button variant="text" color="info" size="small">
+                <Button variant="text" color="info" size="small" onClick={() => scrollToSection('testimonials')}>
                   Testimonials
                 </Button>
-                <Button variant="text" color="info" size="small">
+                <Button variant="text" color="info" size="small" onClick={() => scrollToSection('highlights')}>
                   Highlights
                 </Button>
-                <Button variant="text" color="info" size="small">
+                <Button variant="text" color="info" size="small" onClick={() => scrollToSection('pricing')}>
                   Pricing
                 </Button>
-                <Button variant="text" color="info" size="small" sx={{minWidth: 0}}>
+                <Button variant="text" color="info" size="small" sx={{minWidth: 0}} onClick={() => scrollToSection('faq')}>
                   FAQ
-                </Button>
-                <Button variant="text" color="info" size="small" sx={{minWidth: 0}}>
-                  Blog
                 </Button>
               </Box>
             </Box>
@@ -134,12 +138,12 @@ export default function AppAppBar() {
                     </IconButton>
                   </Box>
 
-                  <MenuItem>Features</MenuItem>
-                  <MenuItem>Testimonials</MenuItem>
-                  <MenuItem>Highlights</MenuItem>
-                  <MenuItem>Pricing</MenuItem>
-                  <MenuItem>FAQ</MenuItem>
-                  <MenuItem>Blog</MenuItem>
+                  <MenuItem onClick={() => { scrollToSection('features'); setOpen(false); }}>Features</MenuItem>
+                  <MenuItem onClick={() => { scrollToSection('testimonials'); setOpen(false); }}>Testimonials</MenuItem>
+                  <MenuItem onClick={() => { scrollToSection('highlights'); setOpen(false); }}>Highlights</MenuItem>
+                  <MenuItem onClick={() => { scrollToSection('pricing'); setOpen(false); }}>Pricing</MenuItem>
+                  <MenuItem onClick={() => { scrollToSection('faq'); setOpen(false); }}>FAQ</MenuItem>
+                  <MenuItem onClick={() => window.open('/blog', '_self')}>Blog</MenuItem>
                   <Divider sx={{my: 3}}/>
                   <MenuItem>
                     <Button

@@ -21,15 +21,25 @@ export default function HomePage(props: { disableCustomTheme?: boolean }) {
       <Hero />
       <div>
         <LogoCollection />
-        <Features />
+        <div id="features">
+          <Features />
+        </div>
         <Divider />
-        <Testimonials />
+        <div id="testimonials">
+          <Testimonials />
+        </div>
         <Divider />
-        <Highlights />
+        <div id="highlights">
+          <Highlights />
+        </div>
         <Divider />
-        <Pricing />
+        <div id="pricing">
+          <Pricing />
+        </div>
         <Divider />
-        <FAQ />
+        <div id="faq">
+          <FAQ />
+        </div>
         <Divider />
         <Footer />
       </div>
