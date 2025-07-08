@@ -14,4 +14,3 @@ export function getSessionItem<T = any>(key: string): T | null {
 export function removeSessionItem(key: string) {
   sessionStorage.removeItem(key);
 }
-

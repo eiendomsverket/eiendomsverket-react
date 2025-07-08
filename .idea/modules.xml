@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/landing-page.iml" filepath="$PROJECT_DIR$/.idea/landing-page.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/eiendomsverket-react.iml" filepath="$PROJECT_DIR$/.idea/eiendomsverket-react.iml" />
     </modules>
   </component>
 </project>
